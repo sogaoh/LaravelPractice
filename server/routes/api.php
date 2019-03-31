@@ -17,3 +17,6 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
+Route::get('/test', function (Request $request) {
+    return response()->json(['status' => 200, 'id' => 1, 'name' => 'hoge']);
+});
