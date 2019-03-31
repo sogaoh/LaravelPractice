@@ -3,6 +3,8 @@ version: '3'
 services:
   php:
     container_name: php
+    environment:
+      TZ: 'Asia/Tokyo'
     build: ./docker/php
     volumes:
     - ./server:/var/www
@@ -10,6 +12,8 @@ services:
   nginx:
     image: nginx
     container_name: nginx
+    environment:
+      TZ: 'Asia/Tokyo'
     ports:
     - 80:80
     volumes:
