@@ -1,9 +1,9 @@
 
-FROM php:7.2-fpm
+FROM php:7.3.3-fpm-stretch
 COPY php.ini /usr/local/etc/php/
 
 RUN apt-get update \
-  && apt-get install -y zlib1g-dev mysql-client \
+  && apt-get install -y libzip-dev zlib1g-dev mysql-client gnupg less unzip zip \
   && docker-php-ext-install zip pdo_mysql
 
 #Composer install
@@ -23,3 +23,7 @@ ENV PATH $PATH:/composer/vendor/bin
 WORKDIR /var/www
 
 RUN composer global require "laravel/installer"
+
+# Optimize composer 
+RUN composer global require "hirak/prestissimo"
+RUN composer config -g repositories.packagist composer http://packagist.jp
