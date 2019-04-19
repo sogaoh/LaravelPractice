@@ -68,7 +68,7 @@ class FruitController extends Controller
      */
     public function show($id)
     {
-        //Not Repository Pattern
+        //!! Repository Pattern !!
         if ($id == 0) {
             return JsonResponse::create(
                 $this->fruitRepository->getAll(),
