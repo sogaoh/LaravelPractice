@@ -4,32 +4,21 @@
 namespace App\Repositories\Fruit;
 
 use App\Models\Fruits;
+use App\Repositories\Fruit\FruitRepositoryInterface;
 
 /**
  * Class FruitDbRepository
  * @package App\Repositories\Fruit
  */
-class FruitDbRepository extends Fruits
+class FruitDbRepository extends Fruits implements FruitRepositoryInterface
 {
-    protected $fruits;
-
-    /**
-     * FruitDbRepository constructor.
-     * @param Fruits $fruits
-     */
-    public function __construct(
-        FruitDbRepository $fruits = null
-    )
-    {
-        $this->fruits = $fruits ?? new FruitDbRepository();
-    }
 
     /**
      * @return Fruits[]|\Illuminate\Database\Eloquent\Collection|mixed
      */
     public function getAll()
     {
-        return $this->fruits->all();
+        return FruitDbRepository::all();
     }
 
     /**
@@ -40,6 +29,6 @@ class FruitDbRepository extends Fruits
      */
     public function getFirstRecordById($id)
     {
-        return $this->fruits->where('id', '=', $id)->first();
+        return FruitDbRepository::where('id', '=', $id)->first();
     }
 }

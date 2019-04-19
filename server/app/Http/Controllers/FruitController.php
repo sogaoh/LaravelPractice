@@ -11,24 +11,18 @@ use Illuminate\Http\Response;
 
 class FruitController extends Controller
 {
-    /** @var Fruits */
-    protected $fruits;
-
     /** @var FruitRepositoryInterface */
     protected $fruitRepository;
 
     /**
      * FruitController constructor.
-     * @param Fruits|null $fruits
-     * @param FruitRepositoryInterface|null $fruitRepository
+     * @param FruitRepositoryInterface $fruitRepository
      */
     public function __construct(
-        Fruits $fruits = null
-        //,FruitRepositoryInterface $fruitRepository = null
+        FruitRepositoryInterface $fruitRepository
     )
     {
-        $this->fruits = $fruits ?? new Fruits();
-        //$this->fruitRepository = $fruitRepository ?? new FruitDbRepository();
+        $this->fruitRepository = $fruitRepository ?? new FruitDbRepository();
     }
 
     /**
@@ -39,7 +33,8 @@ class FruitController extends Controller
     public function index()
     {
         return JsonResponse::create(
-            $this->fruits->all(),
+            //Fruits::all(),
+            $this->fruitRepository->getAll(),
             Response::HTTP_OK
         );
     }
@@ -73,11 +68,11 @@ class FruitController extends Controller
      */
     public function show($id)
     {
-        return response()->json(['status' => 200, 'id' => $id, 'name' => 'hoge']);
-//        return JsonResponse::create(
-//            $this->fruitRepository->getFirstRecordById($id),
-//            Response::HTTP_OK
-//        );
+        //return response()->json(['status' => 200, 'id' => $id, 'name' => 'hoge']);
+        return JsonResponse::create(
+            $this->fruitRepository->getFirstRecordById($id),
+            Response::HTTP_OK
+        );
     }
 
     /**

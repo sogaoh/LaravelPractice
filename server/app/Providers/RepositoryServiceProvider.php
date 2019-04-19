@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Repositories\Fruit\FruitRepositoryInterface;
+use App\Repositories\Fruit\FruitDbRepository;
+
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -13,7 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Fruits
+        $this->app->bind(
+            FruitRepositoryInterface::class,
+            FruitDbRepository::class
+        );
     }
 
     /**
