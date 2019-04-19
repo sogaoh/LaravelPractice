@@ -13,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Fruits
+        $this->app->bind(
+            \App\Repositories\Fruit\FruitRepositoryInterface::class,
+            \App\Repositories\Fruit\FruitDbRepository::class
+        );
     }
 
     /**

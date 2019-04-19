@@ -23,6 +23,7 @@ Route::get('/test', function (Request $request) {
 
 Route::prefix('fruit')->group(function () {
     Route::get('all', 'FruitController@index');
+    Route::get(':id', 'FruitController@show');
 });
 
 

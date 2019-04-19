@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fruits;
+use App\Repositories\Fruit\FruitDbRepository;
+use App\Repositories\Fruit\FruitRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,14 +13,22 @@ class FruitController extends Controller
 {
     /** @var Fruits */
     protected $fruits;
+
+    /** @var FruitRepositoryInterface */
+    protected $fruitRepository;
+
     /**
      * FruitController constructor.
+     * @param Fruits|null $fruits
+     * @param FruitRepositoryInterface|null $fruitRepository
      */
     public function __construct(
         Fruits $fruits = null
+        //,FruitRepositoryInterface $fruitRepository = null
     )
     {
         $this->fruits = $fruits ?? new Fruits();
+        //$this->fruitRepository = $fruitRepository ?? new FruitDbRepository();
     }
 
     /**
@@ -63,7 +73,11 @@ class FruitController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(['status' => 200, 'id' => $id, 'name' => 'hoge']);
+//        return JsonResponse::create(
+//            $this->fruitRepository->getFirstRecordById($id),
+//            Response::HTTP_OK
+//        );
     }
 
     /**
