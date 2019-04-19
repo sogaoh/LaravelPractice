@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fruits;
+use App\Models\Fruit;
 use App\Repositories\Fruit\FruitDbRepository;
 use App\Repositories\Fruit\FruitRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -34,7 +34,7 @@ class FruitController extends Controller
     {
         //Not Repository Pattern
         return JsonResponse::create(
-            Fruits::all(),
+            Fruit::all(),
             Response::HTTP_OK
         );
     }

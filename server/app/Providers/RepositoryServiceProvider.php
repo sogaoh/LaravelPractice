@@ -16,7 +16,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Fruits
+        // Fruit
         $this->app->bind(
             FruitRepositoryInterface::class,
             FruitDbRepository::class

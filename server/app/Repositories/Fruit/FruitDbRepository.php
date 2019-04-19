@@ -3,18 +3,18 @@
 
 namespace App\Repositories\Fruit;
 
-use App\Models\Fruits;
+use App\Models\Fruit;
 use App\Repositories\Fruit\FruitRepositoryInterface;
 
 /**
  * Class FruitDbRepository
  * @package App\Repositories\Fruit
  */
-class FruitDbRepository extends Fruits implements FruitRepositoryInterface
+class FruitDbRepository extends Fruit implements FruitRepositoryInterface
 {
 
     /**
-     * @return Fruits[]|\Illuminate\Database\Eloquent\Collection|mixed
+     * @return Fruit[]|\Illuminate\Database\Eloquent\Collection|mixed
      */
     public function getAll()
     {

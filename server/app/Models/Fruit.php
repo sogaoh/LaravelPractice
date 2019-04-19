@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Fruits
+ * Class Fruit
  * @package App\Models
  */
-class Fruits extends Model
+class Fruit extends Model
 {
     /** @var string Table Name */
     protected $table = 'fruits';
