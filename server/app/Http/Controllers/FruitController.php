@@ -2,10 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fruits;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class FruitController extends Controller
 {
+    /** @var Fruits */
+    protected $fruits;
+    /**
+     * FruitController constructor.
+     */
+    public function __construct(
+        Fruits $fruits = null
+    )
+    {
+        $this->fruits = $fruits ?? new Fruits();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +28,10 @@ class FruitController extends Controller
      */
     public function index()
     {
-        //
+        return JsonResponse::create(
+            $this->fruits->all(),
+            Response::HTTP_OK
+        );
     }
 
     /**
