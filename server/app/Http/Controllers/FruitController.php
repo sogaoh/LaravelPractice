@@ -32,9 +32,9 @@ class FruitController extends Controller
      */
     public function index()
     {
+        //Not Repository Pattern
         return JsonResponse::create(
-            //Fruits::all(),
-            $this->fruitRepository->getAll(),
+            Fruits::all(),
             Response::HTTP_OK
         );
     }
@@ -63,12 +63,18 @@ class FruitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return JsonResponse
      */
     public function show($id)
     {
-        //return response()->json(['status' => 200, 'id' => $id, 'name' => 'hoge']);
+        //Not Repository Pattern
+        if ($id == 0) {
+            return JsonResponse::create(
+                $this->fruitRepository->getAll(),
+                Response::HTTP_OK
+            );
+        }
         return JsonResponse::create(
             $this->fruitRepository->getFirstRecordById($id),
             Response::HTTP_OK
