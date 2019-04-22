@@ -20,3 +20,10 @@ use Illuminate\Http\Request;
 Route::get('/test', function (Request $request) {
     return response()->json(['status' => 200, 'id' => 1, 'name' => 'hoge']);
 });
+
+Route::prefix('fruit')->group(function () {
+    Route::get('all', 'FruitController@index');
+    Route::get('{id}', 'FruitController@show');
+});
+
+
