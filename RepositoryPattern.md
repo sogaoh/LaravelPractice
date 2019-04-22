@@ -44,7 +44,7 @@ var/www # exit
 
 
 ## Source Code (partial)
-- Controller
+- Controller  -> FruitController.php
     ```FruitController.php
     
         //Not Repository Pattern
@@ -72,7 +72,7 @@ var/www # exit
         }
     ``` 
 
-- Repository Implement 
+- Repository Implement  -> FruitDbRepository.php
     ```FruitDbRepository.php 
     
     class FruitDbRepository extends Fruit implements FruitRepositoryInterface
@@ -89,8 +89,8 @@ var/www # exit
     }
     ```
     
-- Service Provider
-    ```RepositoryServiceProvider.php[^1]
+- Service Provider  -> RepositoryServiceProvider.php [^1]
+    ```RepositoryServiceProvider.php
     
         public function register()
         {
