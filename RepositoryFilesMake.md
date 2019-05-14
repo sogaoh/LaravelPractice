@@ -4,7 +4,7 @@
 
 
 ## Environment
-- macOS Mojave 10.14.4
+- macOS Mojave 10.14.5
 - PHP 7.3.5 (cli) (built: May  2 2019 12:40:36) ( NTS )
 - Laravel Framework 5.8.7
 
@@ -21,7 +21,19 @@
 
 -> (成功)
 Repository files created successfully.
+(Creates 
+   app/Repositories/HogeRepositoryInterface.php,
+   app/Repositories/HogeRepository.php)
+```
 
+```
+# php artisan make:repository Hoge/Fuga
+
+-> (成功)
+Repository files created successfully.
+(Creates 
+   app/Repositories/Hoge/Fuga/FugaRepositoryInterface.php,
+   app/Repositories/Hoge/Fuga/FugaRepository.php)
 ```
 
 
