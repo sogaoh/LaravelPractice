@@ -93,11 +93,11 @@ class Repository extends Command
      */
     private function getAbstractFileContent($repositoryName)
     {
-        list($directory, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName, '\\');
+        list($repositoryPath, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName, '\\');
         $abstractFileContent = <<< CONTENT
 <?php
 
-namespace {$this->namespacePathHead}{$directory};
+namespace {$this->namespacePathHead}{$repositoryPath};
 
 /**
  * Interface {$repositoryShortName}Repository{$this->abstractSuffix}
@@ -117,13 +117,13 @@ CONTENT;
      */
     private function getConcreteFileContent($repositoryName)
     {
-        list($directory, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName, '\\');
+        list($repositoryPath, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName, '\\');
         $concreteFileContent = <<< CONTENT
 <?php
 
-namespace {$this->namespacePathHead}{$directory};
+namespace {$this->namespacePathHead}{$repositoryPath};
 
-use {$this->namespacePathHead}{$directory}\\{$repositoryShortName}Repository{$this->abstractSuffix};
+use {$this->namespacePathHead}{$repositoryPath}\\{$repositoryShortName}Repository{$this->abstractSuffix};
 
 /**
  * Class {$repositoryShortName}Repository{$this->concreteSuffix}
@@ -158,7 +158,7 @@ CONTENT;
                 $directory = str_replace('/', '\\', $repositoryName);
             }
         } else {
-            $directory = self::BASE_PATH . $repositoryName . $separator;
+            $directory = ($separator === '/' ? self::BASE_PATH . $repositoryName . $separator : $repositoryName);
             $repositoryShortName = $repositoryName;
         }
         return array($directory, $repositoryShortName);
