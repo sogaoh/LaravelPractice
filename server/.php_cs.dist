@@ -6,6 +6,10 @@ return PhpCsFixer\Config::create()
         // If you want to overwrite default rules
         // add rules here.
         'declare_strict_types' => false,
+        'no_superfluous_phpdoc_tags' => false,
+        'phpdoc_separation' => false,
+        //'phpdoc_no_package' = false,
+        'final_class' => true,
     ]))
     ->setFinder(PhpCsFixer\Finder::create()
         ->exclude('vendor')
