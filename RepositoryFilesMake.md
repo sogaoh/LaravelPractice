@@ -22,8 +22,8 @@
 -> (成功)
 Repository files created successfully.
 (Creates 
-   app/Repositories/HogeRepositoryInterface.php,
-   app/Repositories/HogeRepository.php)
+   app/Repositories/Hoge/HogeRepositoryInterface.php,
+   app/Repositories/Hoge/HogeRepository.php)
 ```
 
 ```
@@ -38,10 +38,34 @@ Repository files created successfully.
 
 
 ## 実装手順概要
-- `php artisan make:command Repository`
-- /path/to/LaravelPractice/server/app/Console/Commands/Repository.php が生成される
+- `php artisan make:command MakeRepositoryCommand`
+- /path/to/LaravelPractice/server/app/Console/Commands/MakeRepositoryCommand.php が生成される
 - App\Console\Commands\Repository.php # handle を実装
-    - see [./server/app/Console/Commands\Repository.php](./server/app/Console/Commands\Repository.php)
+    - see [./server/app/Console/Commands\MakeRepositoryCommand.php](https://github.com/sogaoh/LaravelPractice/tree/master/server/app/Console/Commands/MakeRepositoryCommand.php)
+
+
+## Unit Test
+### Execute
+``` 
+cd /path/to/LaravelPractice/server 
+
+❯ ./vendor/bin/phpunit ./tests/Unit/Console/Commands/MakeRepositoryCommandTest.php
+PHPUnit 7.5.8 by Sebastian Bergmann and contributors.
+
+..                                                                  2 / 2 (100%)
+
+Time: 881 ms, Memory: 12.00 MB
+
+OK (2 tests, 2 assertions)
+```
+
+### Test File Creation
+``` 
+cd /path/to/LaravelPractice/server 
+
+❯ php artisan make:test Console/Commands/MakeRepositoryCommandTest --unit
+Test created successfully.
+```
 
 
 ## Refs
