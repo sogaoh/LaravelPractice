@@ -5,10 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 /**
- * Class Repository
+ * Class MakeRepositoryCommand
  * @package App\Console\Commands
  */
-class Repository extends Command
+class MakeRepositoryCommand extends Command
 {
     const BASE_PATH = 'app/Repositories/';
     const ABSTRACT_SUFFIX = 'Interface';
@@ -135,7 +135,7 @@ CONTENT;
      * @param $repositoryName
      * @return array
      */
-    private function decideRepositoryPathString($repositoryName)
+    public function decideRepositoryPathString($repositoryName)
     {
         $repositoryShortName = '';
         $repositoryNames = explode('/', $repositoryName);
@@ -158,7 +158,7 @@ CONTENT;
      * @param $repositoryName
      * @return array
      */
-    private function decideRepositoryNamespaceString($repositoryName)
+    public function decideRepositoryNamespaceString($repositoryName)
     {
         $repositoryShortName = '';
         $repositoryNames = explode('/', $repositoryName);
