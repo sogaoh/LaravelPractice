@@ -41,7 +41,7 @@ Repository files created successfully.
 - `php artisan make:command MakeRepositoryCommand`
 - /path/to/LaravelPractice/server/app/Console/Commands/MakeRepositoryCommand.php が生成される
 - App\Console\Commands\Repository.php # handle を実装
-    - see [./server/app/Console/Commands\MakeRepositoryCommand.php](https://github.com/sogaoh/LaravelPractice/tree/master/server/app/Console/Commands/MakeRepositoryCommand.php)
+    - see [./server/app/Console/Commands/MakeRepositoryCommand.php](https://github.com/sogaoh/LaravelPractice/tree/master/server/app/Console/Commands/MakeRepositoryCommand.php)
 
 
 ## Unit Test
@@ -66,6 +66,7 @@ cd /path/to/LaravelPractice/server
 ❯ php artisan make:test Console/Commands/MakeRepositoryCommandTest --unit
 Test created successfully.
 ```
+- Detail : see [./tests/Unit/Console/Commands/MakeRepositoryCommandTest.php](https://github.com/sogaoh/LaravelPractice/blob/master/server/tests/Unit/Console/Commands/MakeRepositoryCommandTest.php)
 
 
 ## Refs
