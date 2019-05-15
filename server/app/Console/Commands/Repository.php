@@ -15,9 +15,6 @@ class Repository extends Command
     const CONCRETE_SUFFIX = '';
     const NAMESPACE_PATH_HEAD = 'App\\Repositories\\';
 
-    /** @var string  */
-    private $namespacePathHead;
-
     /** @var string */
     private $abstractSuffix;
 
@@ -46,7 +43,6 @@ class Repository extends Command
     public function __construct()
     {
         parent::__construct();
-        $this->namespacePathHead = self::NAMESPACE_PATH_HEAD;
         $this->abstractSuffix = self::ABSTRACT_SUFFIX;
         $this->concreteSuffix = self::CONCRETE_SUFFIX;
     }
@@ -64,26 +60,22 @@ class Repository extends Command
             $this->error('Repository name invalid..!');
         }
 
-        if (!file_exists(self::BASE_PATH . $repositoryName)) {
+        list($directory, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName);
+        $abstractFileName = $directory . $repositoryShortName . 'Repository' . self::ABSTRACT_SUFFIX . '.php';
+        $concreteFileName = $directory . $repositoryShortName . 'Repository' . self::CONCRETE_SUFFIX . '.php';
 
-            list($directory, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName);
+        if (!file_exists($abstractFileName) && !file_exists($concreteFileName)) {
 
-            mkdir($directory,0775,true);
-
-            $abstractFileName = $directory . $repositoryShortName . 'Repository' . self::ABSTRACT_SUFFIX . '.php';
-            $concreteFileName = $directory . $repositoryShortName . 'Repository' . self::CONCRETE_SUFFIX . '.php';
-
-            if (!file_exists($abstractFileName) && !file_exists($concreteFileName)) {
-                file_put_contents($abstractFileName, $this->getAbstractFileContent($repositoryName));
-                file_put_contents($concreteFileName, $this->getConcreteFileContent($repositoryName));
-
-                $this->info('Repository files created successfully.');
-
-            } else {
-                $this->error('Repository files already exists.');
+            if (!file_exists(self::BASE_PATH . $repositoryName)) {
+                mkdir($directory, 0775, true);
             }
+            file_put_contents($abstractFileName, $this->getAbstractFileContent($repositoryName));
+            file_put_contents($concreteFileName, $this->getConcreteFileContent($repositoryName));
+
+            $this->info('Repository files created successfully.');
+
         } else {
-            $this->error('Repository directory already exists.');
+            $this->error('Repository files already exists.');
         }
     }
 
@@ -93,11 +85,11 @@ class Repository extends Command
      */
     private function getAbstractFileContent($repositoryName)
     {
-        list($repositoryPath, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName, '\\');
+        list($repositoryNamespacePath, $repositoryShortName) = $this->decideRepositoryNamespaceString($repositoryName);
         $abstractFileContent = <<< CONTENT
 <?php
 
-namespace {$this->namespacePathHead}{$repositoryPath};
+namespace {$repositoryNamespacePath};
 
 /**
  * Interface {$repositoryShortName}Repository{$this->abstractSuffix}
@@ -117,13 +109,13 @@ CONTENT;
      */
     private function getConcreteFileContent($repositoryName)
     {
-        list($repositoryPath, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName, '\\');
+        list($repositoryNamespacePath, $repositoryShortName) = $this->decideRepositoryNamespaceString($repositoryName);
         $concreteFileContent = <<< CONTENT
 <?php
 
-namespace {$this->namespacePathHead}{$repositoryPath};
+namespace {$repositoryNamespacePath};
 
-use {$this->namespacePathHead}{$repositoryPath}\\{$repositoryShortName}Repository{$this->abstractSuffix};
+use {$repositoryNamespacePath}\\{$repositoryShortName}Repository{$this->abstractSuffix};
 
 /**
  * Class {$repositoryShortName}Repository{$this->concreteSuffix}
@@ -141,24 +133,48 @@ CONTENT;
      * リポジトリ名に / が含まれる場合を考慮してパス文字列を決定する
      *
      * @param $repositoryName
-     * @param $separator
      * @return array
      */
-    private function decideRepositoryPathString($repositoryName, $separator = '/')
+    private function decideRepositoryPathString($repositoryName)
     {
         $repositoryShortName = '';
         $repositoryNames = explode('/', $repositoryName);
         if (count($repositoryNames) > 1) {
             $directory = self::BASE_PATH;
             foreach ($repositoryNames as $name) {
-                $directory .= $name . $separator;
+                $directory .= $name . '/';
                 $repositoryShortName = $name;
             }
-            if ($separator === '\\') {
-                $directory = str_replace('/', '\\', $repositoryName);
+        } else {
+            $directory = self::BASE_PATH . $repositoryName . '/';
+            $repositoryShortName = $repositoryName;
+        }
+        return array($directory, $repositoryShortName);
+    }
+
+    /**
+     * リポジトリ名に / が含まれる場合を考慮してnamespace文字列を決定する
+     *
+     * @param $repositoryName
+     * @return array
+     */
+    private function decideRepositoryNamespaceString($repositoryName)
+    {
+        $repositoryShortName = '';
+        $repositoryNames = explode('/', $repositoryName);
+        $nameCount = count($repositoryNames);
+        if ($nameCount > 1) {
+            $directory = self::NAMESPACE_PATH_HEAD;
+            for ($i = 0; $i < $nameCount; $i++) {
+                $name = $repositoryNames[$i];
+                $directory .= $name;
+                if ($i < $nameCount - 1) {
+                    $directory .= '\\';
+                }
+                $repositoryShortName = $name;
             }
         } else {
-            $directory = ($separator === '/' ? self::BASE_PATH . $repositoryName . $separator : $repositoryName);
+            $directory = self::NAMESPACE_PATH_HEAD . $repositoryName;
             $repositoryShortName = $repositoryName;
         }
         return array($directory, $repositoryShortName);
