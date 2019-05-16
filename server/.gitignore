@@ -12,3 +12,5 @@ yarn-error.log
 
 .DS_Store
 .idea
+.idea/**
+.php_cs.cache

@@ -1,0 +1,27 @@
+<?php
+
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules(Suin\PhpCsFixer\Rules::create([
+        // If you want to overwrite default rules
+        // add rules here.
+        'declare_strict_types' => false,
+        'no_superfluous_phpdoc_tags' => false,
+        'phpdoc_no_package' => false,
+        'general_phpdoc_annotation_remove' => [
+            'annotations' => ['author'],
+        ],
+        'phpdoc_separation' => false,
+        'phpdoc_align' => [
+            'align' => 'vertical',
+        ],
+        'binary_operator_spaces' => [
+            'align_double_arrow' => true,
+            'align_equals' => true,
+        ],
+        'trailing_comma_in_multiline_array' => false,
+    ]))
+    ->setFinder(PhpCsFixer\Finder::create()
+        ->exclude('vendor')
+        ->in(__DIR__)
+    );
