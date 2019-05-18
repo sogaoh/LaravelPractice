@@ -10,10 +10,13 @@ use Illuminate\Console\Command;
  */
 class MakeRepositoryCommand extends Command
 {
-    const BASE_PATH = 'app/Repositories/';
-    const ABSTRACT_SUFFIX = 'Interface';
-    const CONCRETE_SUFFIX = '';
-    const NAMESPACE_PATH_HEAD = 'App\\Repositories\\';
+    public const BASE_PATH = 'app/Repositories/';
+
+    public const ABSTRACT_SUFFIX = 'Interface';
+
+    public const CONCRETE_SUFFIX = '';
+
+    public const NAMESPACE_PATH_HEAD = 'App\\Repositories\\';
 
     /** @var string */
     private $abstractSuffix;
@@ -37,8 +40,6 @@ class MakeRepositoryCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -56,37 +57,35 @@ class MakeRepositoryCommand extends Command
     {
         $repositoryName = $this->argument('repositoryName');
 
-        if ($repositoryName === '' || is_null($repositoryName) || empty($repositoryName)) {
+        if ($repositoryName === '' || $repositoryName === null || empty($repositoryName)) {
             $this->error('Repository name invalid..!');
         }
 
-        list($directory, $repositoryShortName) = $this->decideRepositoryPathString($repositoryName);
-        $abstractFileName = $directory . $repositoryShortName . 'Repository' . self::ABSTRACT_SUFFIX . '.php';
-        $concreteFileName = $directory . $repositoryShortName . 'Repository' . self::CONCRETE_SUFFIX . '.php';
+        [$directory, $repositoryShortName] = $this->decideRepositoryPathString($repositoryName);
+        $abstractFileName                  = $directory . $repositoryShortName . 'Repository' . self::ABSTRACT_SUFFIX . '.php';
+        $concreteFileName                  = $directory . $repositoryShortName . 'Repository' . self::CONCRETE_SUFFIX . '.php';
 
-        if (!file_exists($abstractFileName) && !file_exists($concreteFileName)) {
-
-            if (!file_exists(self::BASE_PATH . $repositoryName)) {
-                mkdir($directory, 0775, true);
+        if (!\file_exists($abstractFileName) && !\file_exists($concreteFileName)) {
+            if (!\file_exists(self::BASE_PATH . $repositoryName)) {
+                \mkdir($directory, 0775, true);
             }
-            file_put_contents($abstractFileName, $this->getAbstractFileContent($repositoryName));
-            file_put_contents($concreteFileName, $this->getConcreteFileContent($repositoryName));
+            \file_put_contents($abstractFileName, $this->getAbstractFileContent($repositoryName));
+            \file_put_contents($concreteFileName, $this->getConcreteFileContent($repositoryName));
 
             $this->info('Repository files created successfully.');
-
         } else {
             $this->error('Repository files already exists.');
         }
     }
 
     /**
-     * @param string $repositoryName
+     * @param  string $repositoryName
      * @return string
      */
     private function getAbstractFileContent($repositoryName)
     {
-        list($repositoryNamespacePath, $repositoryShortName) = $this->decideRepositoryNamespaceString($repositoryName);
-        $abstractFileContent = <<< CONTENT
+        [$repositoryNamespacePath, $repositoryShortName] = $this->decideRepositoryNamespaceString($repositoryName);
+        return <<< CONTENT
 <?php
 
 namespace {$repositoryNamespacePath};
@@ -99,8 +98,6 @@ interface {$repositoryShortName}Repository{$this->abstractSuffix}
 
 }
 CONTENT;
-
-        return $abstractFileContent;
     }
 
     /**
@@ -109,8 +106,8 @@ CONTENT;
      */
     private function getConcreteFileContent($repositoryName)
     {
-        list($repositoryNamespacePath, $repositoryShortName) = $this->decideRepositoryNamespaceString($repositoryName);
-        $concreteFileContent = <<< CONTENT
+        [$repositoryNamespacePath, $repositoryShortName] = $this->decideRepositoryNamespaceString($repositoryName);
+        return <<< CONTENT
 <?php
 
 namespace {$repositoryNamespacePath};
@@ -125,8 +122,6 @@ class {$repositoryShortName}Repository{$this->concreteSuffix} implements {$repos
 
 }
 CONTENT;
-
-        return $concreteFileContent;
     }
 
     /**
@@ -138,18 +133,20 @@ CONTENT;
     public function decideRepositoryPathString($repositoryName)
     {
         $repositoryShortName = '';
-        $repositoryNames = explode('/', $repositoryName);
-        if (count($repositoryNames) > 1) {
+        $repositoryNames     = \explode('/', $repositoryName);
+
+        if (\count($repositoryNames) > 1) {
             $directory = self::BASE_PATH;
+
             foreach ($repositoryNames as $name) {
                 $directory .= $name . '/';
                 $repositoryShortName = $name;
             }
         } else {
-            $directory = self::BASE_PATH . $repositoryName . '/';
+            $directory           = self::BASE_PATH . $repositoryName . '/';
             $repositoryShortName = $repositoryName;
         }
-        return array($directory, $repositoryShortName);
+        return [$directory, $repositoryShortName];
     }
 
     /**
@@ -161,22 +158,25 @@ CONTENT;
     public function decideRepositoryNamespaceString($repositoryName)
     {
         $repositoryShortName = '';
-        $repositoryNames = explode('/', $repositoryName);
-        $nameCount = count($repositoryNames);
+        $repositoryNames     = \explode('/', $repositoryName);
+        $nameCount           = \count($repositoryNames);
+
         if ($nameCount > 1) {
             $directory = self::NAMESPACE_PATH_HEAD;
+
             for ($i = 0; $i < $nameCount; $i++) {
                 $name = $repositoryNames[$i];
                 $directory .= $name;
+
                 if ($i < $nameCount - 1) {
                     $directory .= '\\';
                 }
                 $repositoryShortName = $name;
             }
         } else {
-            $directory = self::NAMESPACE_PATH_HEAD . $repositoryName;
+            $directory           = self::NAMESPACE_PATH_HEAD . $repositoryName;
             $repositoryShortName = $repositoryName;
         }
-        return array($directory, $repositoryShortName);
+        return [$directory, $repositoryShortName];
     }
 }

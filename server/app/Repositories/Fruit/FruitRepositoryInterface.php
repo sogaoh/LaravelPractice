@@ -16,7 +16,7 @@ interface FruitRepositoryInterface
     /**
      * IDで1レコードを取得
      *
-     * @var bigInteger $id
+     * @param  bigInteger      $id
      * @return object
      */
     public function getFirstRecordById($id);
