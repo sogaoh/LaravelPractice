@@ -21,6 +21,8 @@ return PhpCsFixer\Config::create()
         ],
         'trailing_comma_in_multiline_array' => false,
         'ordered_class_elements' => false,
+        'php_unit_method_casing' => false,
+        'php_unit_test_case_static_method_calls' => false,
     ]))
     ->setFinder(PhpCsFixer\Finder::create()
         ->exclude('vendor')
