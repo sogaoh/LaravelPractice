@@ -25,3 +25,4 @@ docker/db/data/*
 # Others
 .DS_Store
 .editorconfig
+.idea

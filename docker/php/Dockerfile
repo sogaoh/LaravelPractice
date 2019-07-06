@@ -1,5 +1,5 @@
 
-FROM php:7.3.3-fpm-stretch
+FROM php:7.3.6-fpm-stretch
 COPY php.ini /usr/local/etc/php/
 
 RUN apt-get update \
