@@ -1,0 +1,5 @@
+extend type Query {
+    CheckEmailFormat (
+        aMailAddress: Email!
+    ) : EmailFormatCheckResult @field(resolver: "CheckEmailFormat@resolve")
+}

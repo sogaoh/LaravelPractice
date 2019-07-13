@@ -10,6 +10,10 @@ scalar DateTime @scalar(class: "App\\GraphQL\\Scalars\\DateTime")
 #scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 scalar Date @scalar(class: "App\\GraphQL\\Scalars\\Date")
 
+"A email address string with format `hoge@example.inc`."
+scalar Email @scalar(class: "App\\GraphQL\\Scalars\\Email")
+
+
 type Query {
     users: [User!]! @paginate(type: "paginator" model: "App\\User")
     user(id: ID @eq): User @find(model: "App\\User")
