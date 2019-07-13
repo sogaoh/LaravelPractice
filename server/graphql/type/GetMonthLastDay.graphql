@@ -1,0 +1,4 @@
+type MonthLastDay {
+    lastDate: Date!
+    inputDateTime: DateTime!
+}

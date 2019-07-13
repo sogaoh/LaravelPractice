@@ -1,0 +1,5 @@
+extend type Query {
+    GetMonthLastDay (
+        aDateTime: DateTime!
+    ) : MonthLastDay @field(resolver: "GetMonthLastDay@resolve")
+}
